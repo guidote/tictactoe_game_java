@@ -1,12 +1,14 @@
 import java.util.Scanner;
 
 public class TicTacToe_Game {
-
+	
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		
-		boolean game = true;
+		//boolean true when there is no winner
+		boolean win = false;
+		//array to keep track of which spots are taken
 		int[] taken = {0,0,0,0,0,0,0,0,0};
+		//set up game board, 2d char array
 		char[][] gameboard = {{' ', '|', ' ', '|', ' '},
 				{'-', '+', '-', '+', '-'},
 				{' ', '|', ' ', '|', ' '},
@@ -14,28 +16,31 @@ public class TicTacToe_Game {
 				{' ', '|', ' ', '|', ' '}};
 		
 		printgameboard(gameboard);
-		
-		while(game = true) {
-		System.out.print("Please input a position to place a piece player 1 (1-9): ");
-		int input = in.nextInt();
-		for (int i = 0; i < taken.length; i++)
-			if(taken[i] == input) {
-				System.out.print("Spot is taken! Input another position: ");
-				input = in.nextInt();
+
+		while(win != true){
+			System.out.print("Please input a position to place a piece player 1 (1-9): ");
+			int input = in.nextInt();
+			for (int i = 0; i < taken.length; i++)
+				if(taken[i] == input) {
+					System.out.print("Spot is taken! Input another position: ");
+					input = in.nextInt();
 			}
-		play(gameboard, input, taken, "player1");
+			play(gameboard, input, taken, "player1");
+			win = win(gameboard);
+			if(win == true)
+				break;
 		
-		System.out.print("Please input a position to place a piece player 2 (1-9): ");
-		input = in.nextInt();
-		for (int i = 0; i < taken.length; i++)
-			if(taken[i] == input) {
-				System.out.print("Spot is taken! Input another position: ");
-				input = in.nextInt();
+			System.out.print("Please input a position to place a piece player 2 (1-9): ");
+			input = in.nextInt();
+			for (int i = 0; i < taken.length; i++)
+				if(taken[i] == input) {
+					System.out.print("Spot is taken! Input another position: ");
+					input = in.nextInt();
 			}
-		play(gameboard, input, taken, "player2");
-		
-	}
-		
+			play(gameboard, input, taken, "player2");
+			win = win(gameboard);
+		}
+		in.close();
 	}
 	
 	public static void printgameboard(char[][] gameboard) {
@@ -84,13 +89,73 @@ public class TicTacToe_Game {
 		printgameboard(gameboard);
 	}
 	
-	public static void win(char[][] gameboard) {
-		if ((gameboard[0][0] == gameboard[0][2]) && (gameboard[0][2] == gameboard[0][4])) {
+	public static boolean win(char[][] gameboard) {
+		//first row win
+		if (((gameboard[0][0] == gameboard[0][2]) && (gameboard[0][2] == gameboard[0][4])) && (gameboard[0][0] != ' ')) {
 			if (gameboard[0][0] == 'X')
 				System.out.println("The winner is player 1 ! Congradulations !");
 			else
 				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
 		}
+		//second row win
+		else if ((gameboard[2][0] == gameboard[2][2]) && (gameboard[2][2] == gameboard[2][4]) && (gameboard[2][2] != ' ')) {
+			if (gameboard[2][2] == 'X')
+				System.out.println("The winner is player 1 ! Congradulations !");
+			else
+				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
+		}
+		//third row win
+		else if ((gameboard[4][0] == gameboard[4][2]) && (gameboard[4][2] == gameboard[4][4]) && (gameboard[4][4] != ' ')) {
+			if (gameboard[4][4] == 'X')
+				System.out.println("The winner is player 1 ! Congradulations !");
+			else
+				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
+		}
+		//first column win
+		if ((gameboard[0][0] == gameboard[2][0]) && (gameboard[2][0] == gameboard[4][0]) && (gameboard[0][0] != ' ')) {
+			if (gameboard[0][0] == 'X')
+				System.out.println("The winner is player 1 ! Congradulations !");
+			else
+				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
+		}
+		//second column win
+		else if ((gameboard[0][2] == gameboard[2][2]) && (gameboard[2][2] == gameboard[4][2]) && (gameboard[2][2] != ' ')) {
+			if (gameboard[2][2] == 'X')
+				System.out.println("The winner is player 1 ! Congradulations !");
+			else
+				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
+		}
+		//third column win
+		else if ((gameboard[0][4] == gameboard[2][4]) && (gameboard[2][4] == gameboard[4][4]) && (gameboard[4][4] != ' ')) {
+			if (gameboard[4][4] == 'X')
+				System.out.println("The winner is player 1 ! Congradulations !");
+			else
+				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
+		}
+		//downward diagonal win
+		else if ((gameboard[0][0] == gameboard[2][2]) && (gameboard[2][2] == gameboard[4][4]) && (gameboard[2][2] != ' ')) {
+			if (gameboard[2][2] == 'X')
+				System.out.println("The winner is player 1 ! Congradulations !");
+			else
+				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
+		}
+		//upward diagonal win
+		else if ((gameboard[0][4] == gameboard[2][2]) && (gameboard[2][2] == gameboard[4][0]) && (gameboard[2][2] != ' ')) {
+			if (gameboard[2][2] == 'X')
+				System.out.println("The winner is player 1 ! Congradulations !");
+			else
+				System.out.println("The winner is player 2 ! Congradulations !");
+			return true;
+		}
+		else 
+			return false;
 	}
 	
 }
